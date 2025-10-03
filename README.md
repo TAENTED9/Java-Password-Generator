@@ -1,4 +1,4 @@
-# TAENTED Java Password Generator
+# Java Password Generator
 
 Simple command-line password generator and strength checker written in Java. This small project provides an interactive menu to generate random passwords from configurable character pools, evaluate password strength, and save generated passwords to a text file.
 
@@ -6,7 +6,12 @@ Simple command-line password generator and strength checker written in Java. Thi
 
 - Generate random passwords from a selectable alphabet (uppercase, lowercase, numbers, symbols).
 - Evaluate password strength and provide friendly feedback.
-- Save generated password to a file (saved to a Desktop path by the current implementation).
+- Save generated password to a file (saved to user Desktop path).
+
+```powershell
+String desktop = System.getProperty("user.home") + "\\Desktop\\";
+String filename = desktop + "Generated_password(" + timestamp + ").txt";
+```
 
 ## Requirements
 
@@ -15,7 +20,7 @@ Simple command-line password generator and strength checker written in Java. Thi
 
 ## Build & run (Windows PowerShell)
 
-Open a PowerShell prompt in the project directory (`c:\Users\USER\Desktop\Java-Password-Generator`) and compile all sources:
+Open a PowerShell prompt in the project directory (`\Desktop\Java-Password-Generator`) and compile all sources:
 
 ```powershell
 javac *.java
@@ -60,21 +65,6 @@ Alternatively, import the project into an IDE (IntelliJ IDEA, Eclipse) and add J
 - `Alphabet.java` - builds the character pool based on user preferences (uppercase, lowercase, numbers, symbols).
 - `Password.java` - represents a password and evaluates its strength, returns human-friendly feedback.
 - `GeneratorTest.java` - JUnit tests for `Alphabet`, `Password`, and `Generator` basic behavior.
-
-## Notes, Known issues and suggested improvements
-
-- Saving location: the current code builds a filename using `"\\Desktop\\Generated_password(...).txt"`. This creates a path relative to the drive root and may not match the active user's Desktop path. A more robust approach is to use:
-
-```java
-String desktop = System.getProperty("user.home") + "\\Desktop\\";
-String filename = desktop + "Generated_password(" + timestamp + ").txt";
-```
-
-- Multiple Scanner instances: the code creates several `Scanner` objects reading `System.in` (and also uses a static `keyboard` Scanner). It's better to create a single Scanner and pass it around to avoid resource and stream conflicts.
-- File IO error handling: consider encrypting the saved passwords or prompting before writing sensitive data to disk.
-- Tests: the tests are light and assume certain behaviors. Add more unit tests (edge cases, invalid inputs) and consider using a build tool (Maven/Gradle) to manage JUnit and run tests reliably.
-- Randomness: `Math.random()` is used for password generation. For stronger randomness, prefer `SecureRandom`.
-- Improve UX: allow non-interactive invocation (CLI flags) to generate passwords from scripts, and add options to copy the generated password to clipboard.
 
 ## Contract
 
